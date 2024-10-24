@@ -158,7 +158,7 @@ random_region <- function(spatial_coord, center_id, n_ids){
 #' }
 #'
 #' @importFrom nnls nnls
-#' @importFrom stats p.adjust
+#' @importFrom stats p.adjust sapply
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @export
@@ -175,11 +175,13 @@ SpaCCI_local <- function(gene_spot_df,
   centerIDs <- sample(c(colnames(gene_spot_df)), size = round(ncol(gene_spot_df)*prop) )
   #centerIDs <- c(colnames(gene_spot_df))
   RegionIDs_matrix <- list()
+  message(paste0("Now finding the neighborhoods for ",round(ncol(gene_spot_df)*prop), " spots"))
   for ( i in 1:length(centerIDs)){
     IDs <- Find_regional_IDs(gene_spot_df,spatial_coord, centerIDs[i], enhanced = FALSE, radius = radius, avern = 5)$closeID
     RegionIDs_matrix[[centerIDs[i]]] <- IDs
   }
-
+  RegionIDs_matrix <- RegionIDs_matrix[sapply(RegionIDs_matrix, length) >= 6] # remove those that don't have enough neighborhoods
+  centerIDs <- names(RegionIDs_matrix) # update cencter ID
 
   ## prepared for permutation
   cellPropMatrix <- as.matrix(spot_cell_prop_df)
@@ -193,6 +195,8 @@ SpaCCI_local <- function(gene_spot_df,
     nboot <- as.numeric(floor(nrow(spot_cell_prop_df)/500)*100)
     if (nboot == 0){
       nboot <- 1
+    }else if(nboot > 1000){
+      nboot <- 1000
     }
 
     premut_center <- sample(colnames(gene_spot_df[,-which(colnames(gene_spot_df) %in% ids )]), size = nboot)
@@ -202,6 +206,10 @@ SpaCCI_local <- function(gene_spot_df,
     for (i in seq_along(premut_center)) {
       region_ids <- random_region(spatial_coord, premut_center[i], n_ids = length(ids))
       region_permut_index[[i]] <- as.numeric(match(region_ids, colnames(gene_spot_df) ))
+      if(any(is.na( region_permut_index[[i]]))){
+        stop("Please make sure the rownames of spatial_coordinates_dataframe match the colnames of gene_spot_expression_dataframe")
+      }
+
     }
 
     # Optionally, convert list to a data frame or matrix if all outputs have the same length

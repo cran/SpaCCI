@@ -1,12 +1,12 @@
-925507184996a025a9f5a47c231cff8a *DESCRIPTION
+a94c484c44fc7259cf35369f909dd4bd *DESCRIPTION
 754a01e312ca51ec475a136c66104e78 *NAMESPACE
 8556b3b441e2b94c89bc651db9549780 *R/RcppExports.R
 ba10b00b7a2ce8f622bef61d4937d901 *R/database.R
-cf2df359749c022b3f41ae51f06077b5 *R/modeling.R
+bf49fbf903c525ef67547674c6de6161 *R/modeling.R
 03e5300388cc1c5d9ac2c64d0f45c0c0 *R/permutation.R
 02f4bdb5eff6fe10d397f0a8a89b8450 *R/result_global.R
 b7d08aabd779469b5dee27192fcd7382 *R/result_local.R
-2026d56974b03b4a6990c4ab78f1c7bf *R/run_SpaCCI.R
+b17ff7d1c9a94b2bac26963ed767bbd4 *R/run_SpaCCI.R
 78f664bd631eb227b280f76a76bdbdb4 *R/test_data.R
 920b28ab3a8e152a94f72e821cb9e937 *R/utils.R
 bf61642adec6966b9203b1ff43805da4 *R/visiualization.R
